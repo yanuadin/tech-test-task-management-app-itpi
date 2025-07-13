@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('description')->nullable();
             $table->date('due_date');
-            $table->string('status');
+            $table->string('status')->default('initial');
             $table->string('file_path')->nullable();
             $table->timestamps();
         });
