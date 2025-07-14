@@ -71,7 +71,7 @@ Uses Laravel Sanctum to issue secure tokens for API access.
 - Protected routes via middleware
 
 ---
-##🧪 Testing
+## 🧪 Testing
 ```
 php artisan test
 # or
