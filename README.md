@@ -71,6 +71,23 @@ Uses Laravel Sanctum to issue secure tokens for API access.
 - Protected routes via middleware
 
 ---
+
+## 📸 Screenshots
+1. Login Area
+   <img src="./screenshoot/1.png" width="100%">
+
+2. Register
+   <img src="./screenshoot/2.png" width="100%">
+
+3. Home
+   <img src="./screenshoot/3.png" width="100%">
+
+4. Board
+   <img src="./screenshoot/4.png" width="100%">
+
+5. List & Task
+   <img src="./screenshoot/5.png" width="100%">
+---
 ## 📬 Contact
 Built with ❤️ by yanuadin
 ---
