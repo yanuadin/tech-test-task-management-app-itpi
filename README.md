@@ -39,7 +39,7 @@ A modern, web-based task management application built with **Laravel 12** (REST 
 git clone https://github.com/yanuadin/tech-test-task-management-app-itpi
 ```
 
-### 🧑‍🍳 Backend (Laravel API)
+### 🧑‍🍳 Backend (Laravel 12)
 ```
 cd task-management/backend
 
