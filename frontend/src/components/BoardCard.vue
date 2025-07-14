@@ -3,8 +3,8 @@
        @click="$emit('select', board.id)">
     <h3 class="text-lg font-semibold mb-2">{{ board.title }}</h3>
     <div class="flex justify-between items-center text-sm text-gray-500">
-      <span>{{ board.lists_count || 0 }} lists</span>
-      <button @click.stop="$emit('delete', board.id)" class="text-red-500 hover:text-red-700">
+      <span>{{ board.task_lists_count || 0 }} lists</span>
+      <button @click.stop="$emit('delete', board.id)" class="text-red-500 hover:text-red-700 cursor-pointer">
         Delete
       </button>
     </div>

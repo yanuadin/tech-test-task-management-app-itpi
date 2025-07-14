@@ -18,7 +18,7 @@ class TaskListController extends Controller
     {
         Gate::authorize('view', $board);
 
-        return $this->success($board->taskLists, 'Lists retrieved successfully');
+        return $this->success($board->taskLists->load('tasks'), 'Lists retrieved successfully');
     }
 
     public function store(Request $request, Board $board): JsonResponse

@@ -17,8 +17,11 @@ const routes = [
     {
         path: '/boards/:id',
         name: 'Board',
-        component: () => import('@/components/BoardView.vue'),
-        meta: { requiresAuth: true }
+        component: () => import('@/views/BoardView.vue'),
+        meta: { requiresAuth: true },
+        props: route => ({
+            boardId: parseInt(route.params.id), // Cast to number
+        })
     },
     {
         path: '/login',

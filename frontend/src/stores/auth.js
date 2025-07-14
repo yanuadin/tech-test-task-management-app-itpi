@@ -1,20 +1,25 @@
 import { defineStore } from 'pinia';
 import authApi from '@/api/auth';
+import apiClient from "@/api/apiClient.js";
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
         user: JSON.parse(localStorage.getItem('user')),
         token: JSON.parse(localStorage.getItem('token')),
+        isAuthenticated: false
     }),
     actions: {
         async login(credentials) {
             try {
+                await apiClient.get('/sanctum/csrf-cookie')
+
                 const response = await authApi.login(credentials);
 
                 this.user = response.data.data.user;
                 this.token = response.data.data.access_token;
                 localStorage.setItem('user', JSON.stringify(this.user));
                 localStorage.setItem('token', JSON.stringify(this.token));
+                this.isAuthenticated = true;
 
                 return response;
             } catch (error) {
@@ -25,6 +30,7 @@ export const useAuthStore = defineStore('auth', {
             try {
                 await authApi.logout();
                 this.user = null;
+                this.isAuthenticated = false
                 localStorage.removeItem('user');
                 localStorage.removeItem('token');
             } catch (error) {

@@ -17,6 +17,7 @@ class BoardController extends Controller
     {
         $boards = Board::query()
             ->where('user_id', auth()->id())
+            ->withCount('taskLists')
             ->get();
 
         return $this->success($boards, 'Boards retrieved successfully');

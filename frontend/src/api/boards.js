@@ -1,30 +1,22 @@
-import axios from 'axios';
-import { useAuthStore } from '@/stores/auth';
-
-const baseURL = 'http://127.0.0.1:8000/api';
-const authStore = useAuthStore();
+import apiClient from "@/api/apiClient.js";
 
 export default {
     getBoards() {
-        return axios.get(`${baseURL}/boards`, {
-            headers: {
-                Authorization: `Bearer ${authStore.user.}`
-            }
-        });
+        return apiClient.get('/api/boards');
     },
     getBoard(id) {
-        return axios.get(`${baseURL}/boards/${id}`);
+        return apiClient.get(`/api/boards/${id}`);
     },
     createBoard(boardData) {
-        return axios.post(`${baseURL}/boards`, boardData);
+        return apiClient.post(`/api/boards`, boardData);
     },
     updateBoard(id, boardData) {
-        return axios.put(`${baseURL}/boards/${id}`, boardData);
+        return apiClient.put(`/api/boards/${id}`, boardData);
     },
     deleteBoard(id) {
-        return axios.delete(`${baseURL}/boards/${id}`);
+        return apiClient.delete(`/api/boards/${id}`);
     },
     getBoardLists(boardId) {
-        return axios.get(`${baseURL}/boards/${boardId}/lists`);
+        return apiClient.get(`/api/boards/${boardId}/lists`);
     }
 };

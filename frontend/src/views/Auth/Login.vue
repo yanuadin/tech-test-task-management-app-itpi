@@ -69,7 +69,7 @@ const login = async () => {
       email: form.value.email,
       password: form.value.password
     });
-    router.push('/boards');
+    router.push('/');
   } catch (error) {
     console.error('Login failed:', error);
     // Show error message to user

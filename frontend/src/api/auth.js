@@ -1,15 +1,13 @@
-import axios from 'axios';
-
-const baseURL = 'http://127.0.0.1:8000/api';
+import apiClient from "@/api/apiClient.js";
 
 export default {
     login(credentials) {
-        return axios.post(`${baseURL}/login`, credentials);
+        return apiClient.post('/api/login', credentials);
     },
     logout() {
-        return axios.post(`${baseURL}/logout`);
+        return apiClient.post('/api/logout');
     },
     register(userData) {
-        return axios.post(`${baseURL}/register`, userData);
+        return apiClient.post('/api/register', userData);
     }
 };

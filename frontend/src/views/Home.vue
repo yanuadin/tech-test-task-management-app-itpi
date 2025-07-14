@@ -1,6 +1,9 @@
 <template>
   <div class="container mx-auto px-4 py-8">
     <!-- Welcome message -->
+    <button @click="logout" class="float-right px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 cursor-pointer">
+      Logout
+    </button>
     <div class="mb-8 text-center">
       <h1 class="text-3xl font-bold text-gray-800 mb-2">Welcome to Your Task Manager</h1>
       <p class="text-gray-600">Organize your work and boost your productivity</p>
@@ -67,14 +70,14 @@
         <div v-for="board in recentBoards" :key="board.id" class="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow cursor-pointer" @click="goToBoard(board.id)">
           <h3 class="text-lg font-semibold mb-2">{{ board.title }}</h3>
           <div class="flex justify-between items-center text-sm text-gray-500">
-            <span>{{ board.lists_count || 0 }} lists</span>
+            <span>{{ board.task_lists_count || 0 }} lists</span>
             <span>Last updated: {{ formatDate(board.updated_at) }}</span>
           </div>
         </div>
 
         <div v-if="recentBoards.length === 0" class="col-span-full text-center py-8">
           <p class="text-gray-500 mb-4">You don't have any boards yet</p>
-          <button @click="createNewBoard" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+          <button @click="createNewBoard" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 cursor-pointer">
             Create Your First Board
           </button>
         </div>
@@ -127,9 +130,11 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useBoardsStore } from '@/stores/boards'
+import { useAuthStore } from '@/stores/auth';
 
 const router = useRouter()
 const boardsStore = useBoardsStore()
+const authStore = useAuthStore();
 
 const loading = ref(true)
 const loadingTasks = ref(true)
@@ -184,6 +189,15 @@ function createNewBoard() {
   // You would implement actual board creation logic here
   router.push('/boards/new')
 }
+
+const logout = async () => {
+  try {
+    await authStore.logout();
+    router.push('/login');
+  } catch (error) {
+    console.error('Logout failed:', error);
+  }
+};
 
 function goToBoard(boardId) {
   router.push(`/boards/${boardId}`)
