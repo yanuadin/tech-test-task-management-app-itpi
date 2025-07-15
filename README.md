@@ -96,7 +96,7 @@ npm run test
    <img src="./screenshoot/5.png" width="100%">
 ---
 ## 📬 Contact
-Built with ❤️ by yanuadin
+Built with ❤️ by [yanuadin](https://github.com/yanuadin)
 ---
 
 Let me know if you'd like it in **Bahasa Indonesia** or if you'd like to auto-generate the API docs section too.
