@@ -22,6 +22,18 @@ class TaskController extends Controller
         return $this->success($taskList->tasks, 'Tasks retrieved successfully');
     }
 
+    public function all(): JsonResponse
+    {
+        $tasks = Task::query()
+            ->whereHas('taskList.board', function($query) {
+                $query->where('user_id', auth()->user()->id);
+            })
+            ->with('taskList:id,board_id')
+            ->paginate(10);
+
+        return $this->success($tasks, 'Tasks retrieved successfully');
+    }
+
     public function store(Request $request, TaskList $taskList): JsonResponse
     {
         Gate::authorize('update', $taskList->board);

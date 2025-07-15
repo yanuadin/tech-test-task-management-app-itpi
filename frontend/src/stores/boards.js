@@ -139,6 +139,18 @@ export const useBoardsStore = defineStore('boards', {
                 this.loading = false;
             }
         },
+        async fetchAllTasks() {
+            try {
+                this.loading = true;
+                const response = await tasksApi.getAllTask();
+                this.tasks = response.data.data.data;
+                return response;
+            } catch (error) {
+                this.error = error.response?.data?.message || 'Failed to fetch boards';
+            } finally {
+                this.loading = false;
+            }
+        },
         async createTask(listId, taskData) {
             try {
                 this.loading = true;

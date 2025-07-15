@@ -1,6 +1,9 @@
 import apiClient from "@/api/apiClient.js";
 
 export default {
+    getAllTask() {
+        return apiClient.get(`/api/paginate/tasks/all`);
+    },
     getTask(listId, taskId) {
         return apiClient.get(`/api/lists/${listId}/tasks/${taskId}`);
     },

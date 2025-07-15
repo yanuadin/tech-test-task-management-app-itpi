@@ -27,7 +27,7 @@
       </router-link>
 
       <router-link
-          to="/boards/new"
+          to="/boards"
           class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow flex items-center"
           @click.prevent="createNewBoard"
       >
@@ -104,7 +104,7 @@
           <div class="flex justify-between items-start">
             <div>
               <h3 class="font-medium">{{ task.title }}</h3>
-              <p class="text-sm text-gray-600">{{ task.desc || 'No description' }}</p>
+              <p class="text-sm text-gray-600">{{ task.description || 'No description' }}</p>
             </div>
             <span class="text-xs px-2 py-1 rounded-full" :class="getStatusClass(task.status)">
               {{ task.status }}
@@ -112,7 +112,7 @@
           </div>
           <div class="mt-2 flex justify-between items-center text-xs text-gray-500">
             <span>Due: {{ task.due_date ? formatDate(task.due_date) : 'No due date' }}</span>
-            <router-link :to="`/boards/${task.board_id}`" class="text-blue-500 hover:underline">
+            <router-link :to="`/boards/${task.task_list.board_id}`" class="text-blue-500 hover:underline">
               Go to board
             </router-link>
           </div>
@@ -127,7 +127,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import {ref, onMounted, computed} from 'vue'
 import { useRouter } from 'vue-router'
 import { useBoardsStore } from '@/stores/boards'
 import { useAuthStore } from '@/stores/auth';
@@ -140,54 +140,24 @@ const loading = ref(true)
 const loadingTasks = ref(true)
 const showRecentTasks = ref(false)
 const recentBoards = ref([])
-const recentTasks = ref([])
+const recentTasks = computed(() => boardsStore.tasks);
 
 onMounted(async () => {
-  try {
-    await boardsStore.fetchBoards()
-    recentBoards.value = boardsStore.boards.slice(0, 3) // Get first 3 boards
-    loading.value = false
-
-    // Simulate fetching recent tasks (you would replace this with actual API call)
-    setTimeout(() => {
-      recentTasks.value = [
-        {
-          id: 1,
-          title: 'Implement authentication',
-          desc: 'Set up login and registration',
-          status: 'done',
-          due_date: '2023-06-15',
-          board_id: 1
-        },
-        {
-          id: 2,
-          title: 'Design board UI',
-          desc: 'Create mockups for board view',
-          status: 'in_progress',
-          due_date: '2023-06-20',
-          board_id: 1
-        },
-        {
-          id: 3,
-          title: 'Set up database',
-          desc: 'Configure PostgreSQL schema',
-          status: 'todo',
-          due_date: '2023-06-10',
-          board_id: 2
-        }
-      ]
-      loadingTasks.value = false
-    }, 500)
-  } catch (error) {
-    console.error('Error loading data:', error)
-    loading.value = false
-    loadingTasks.value = false
-  }
+  await loadData();
 })
+
+const loadData = async () => {
+  await boardsStore.fetchBoards()
+  recentBoards.value = boardsStore.boards.slice(0, 3) // Get first 3 boards
+  loading.value = false
+
+  await boardsStore.fetchAllTasks();
+  loadingTasks.value = false
+}
 
 function createNewBoard() {
   // You would implement actual board creation logic here
-  router.push('/boards/new')
+  router.push('/boards')
 }
 
 const logout = async () => {
@@ -211,10 +181,9 @@ function formatDate(dateString) {
 
 function getStatusClass(status) {
   const classes = {
-    'todo': 'bg-blue-100 text-blue-800',
-    'in_progress': 'bg-yellow-100 text-yellow-800',
-    'done': 'bg-green-100 text-green-800',
-    'blocked': 'bg-red-100 text-red-800'
+    'initial': 'bg-blue-100 text-blue-800',
+    'progress': 'bg-yellow-100 text-yellow-800',
+    'completed': 'bg-green-100 text-green-800',
   }
   return classes[status] || 'bg-gray-100 text-gray-800'
 }
